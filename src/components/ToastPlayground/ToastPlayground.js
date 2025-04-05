@@ -1,7 +1,7 @@
 import React from 'react';
 import ToastShelf from '../ToastShelf';
 import Button from '../Button';
-
+import { ToastContext } from '../ToastProvider';
 import styles from './ToastPlayground.module.css';
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
@@ -9,9 +9,7 @@ const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 function ToastPlayground() {
   const [message, setMessage] = React.useState('');
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
-
-  const [stack, setStack] = React.useState([]);
-  // stack: [{variant, message}, {variant, message}]
+  const { addToast } = React.useContext(ToastContext);
 
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
@@ -21,20 +19,9 @@ function ToastPlayground() {
     setVariant(e.target.value);
   };
 
-  const removeToastFromStack = (id) => {
-    setStack((stack) => {
-      return stack.filter((toast) => toast.id !== id);
-    });
-  };
-
   const popToast = (e) => {
     e.preventDefault();
-    setStack((stack) => {
-      return [
-        ...stack,
-        { variant: variant, message: message, id: crypto.randomUUID() },
-      ];
-    });
+    addToast({ variant, message });
     setMessage('');
     setVariant(VARIANT_OPTIONS[0]);
   };
@@ -46,7 +33,7 @@ function ToastPlayground() {
         <h1>ToastShelf Playground</h1>
       </header>
 
-      <ToastShelf stack={stack} removeToastFromStack={removeToastFromStack} />
+      <ToastShelf />
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
