@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEscapeKey } from '../../hooks';
+import { useKeyDown } from '../../hooks';
 
 export const ToastContext = React.createContext([]);
 
@@ -27,7 +27,7 @@ function ToastProvider({ children }) {
   // Clearing the stack  == clearing the data, ToastProvider handles the data
   // ToastShelf handles the presentation, just keep it presentational
   const clearStack = React.useCallback(() => setStack([]), []);
-  useEscapeKey(clearStack);
+  useKeyDown('Escape', clearStack);
 
   return (
     <ToastContext.Provider value={{ stack, addToast, removeToastFromStack }}>
