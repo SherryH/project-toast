@@ -12,7 +12,12 @@ function ToastShelf() {
   // it makes more sense in terms of props API design
 
   return (
-    <ol className={styles.wrapper}>
+    <ol
+      className={styles.wrapper}
+      role="region"
+      aria-live="polite"
+      aria-label="Notification"
+    >
       {stack.length > 0 &&
         stack.map(({ variant, message, id }) => (
           <li className={styles.toastWrapper} key={id}>

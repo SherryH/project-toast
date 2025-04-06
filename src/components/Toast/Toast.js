@@ -24,17 +24,22 @@ function Toast({ children, variant = 'notice', id }) {
 
   const Icon = ICONS_BY_VARIANT[variant];
   return (
-    <div className={`${styles.toast} ${styles[variant]}`}>
+    <div role="alert" className={`${styles.toast} ${styles[variant]}`}>
       <div className={styles.iconContainer}>
         <Icon size={24} />
       </div>
-      <p className={styles.content}>{children}</p>
+      <p className={styles.content}>
+        <VisuallyHidden>{variant} -</VisuallyHidden>
+
+        {children}
+      </p>
       <button
         className={styles.closeButton}
         onClick={() => removeToastFromStack(id)}
+        aria-label="Dismiss message"
+        aria-live="off"
       >
         <X size={24} />
-        <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
     </div>
   );
