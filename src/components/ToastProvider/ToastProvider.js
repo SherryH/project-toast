@@ -26,7 +26,8 @@ function ToastProvider({ children }) {
   // Not to live inside ToastShelf
   // Clearing the stack  == clearing the data, ToastProvider handles the data
   // ToastShelf handles the presentation, just keep it presentational
-  useEscapeKey(() => setStack([]));
+  const clearStack = React.useCallback(() => setStack([]), []);
+  useEscapeKey(clearStack);
 
   return (
     <ToastContext.Provider value={{ stack, addToast, removeToastFromStack }}>
